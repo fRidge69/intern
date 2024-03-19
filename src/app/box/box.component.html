@@ -29,8 +29,8 @@
     </div>
 
     <div class="checkbox">
-      <input id="externalCheckbox" class="border" type="checkbox" />
-      <label>External</label>
+      <input id="externalCheckbox" class="border" type="checkbox" (change)="updateFilteredGuides()" [(ngModel)]="externalCheckboxChecked">
+      <label for="externalCheckbox">External</label>
     </div>
   </div>
 

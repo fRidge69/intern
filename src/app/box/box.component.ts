@@ -29,6 +29,7 @@ export class BoxComponent {
     { name: 'Anirudh Guha', department: 'dept-6' },
     { name: 'Arun Rahul S', department: 'dept-6' }
   ];
+  externalCheckboxChecked: boolean = false;
 
   increment() {
     this.previousDepartment = this.selectedDepartment;
@@ -54,6 +55,8 @@ export class BoxComponent {
     if(this.selectedDepartment==null){
       return this.guides
     }
+
+
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
   }
 
@@ -61,6 +64,9 @@ export class BoxComponent {
   get filteredGuides(): any[] {
     console.log("depart",this.selectedDepartment)
     if(this.selectedDepartment==null){
+      return this.guides
+    }
+    if (this.externalCheckboxChecked) {
       return this.guides
     }
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
