@@ -3,35 +3,36 @@
     <div class="dropdown">
       <label for="department" class="dropdown-boxes">Department</label>
       <div class="dropdown-boxes">
-          <input hidden id="dept_box" type="text" placeholder="Enter department" />
-          <select id="department" class="form-select" ng-model="selectedDepartment">
-              <option disabled selected value=""></option>
-              <option id="dept-1">Biological Sciences and Engineering</option>
-              <option id="dept-2">Chemistry</option>
-              <option id="dept-3">Civil Engineering</option>
-              <option id="dept-4">Computer Science & Engineering</option>
-              <option id="dept-5">Data Science</option>
-              <option id="dept-6">Electrical Engineering</option>
-          </select>
+        <select id="department" class="form-select" [(ngModel)]="selectedDepartment" (ngModelChange)="updateFilteredGuides()">
+          <option disabled selected value=""></option>
+          <option id="dept-1">Biological Sciences and Engineering</option>
+          <option id="dept-2">Chemistry</option>
+          <option id="dept-3">Civil Engineering</option>
+          <option id="dept-4">Computer Science & Engineering</option>
+          <option id="dept-5">Data Science</option>
+          <option id="dept-6">Electrical Engineering</option>
+        </select>
       </div>
-  
-      <div class=" my-4">
-          <label for="guide" class="dropdown-boxes">Guide {{number}}</label>
-          <div class="dropdown-boxes">
-              <select id="guide" class="form-select" ng-model="selectedGuide">
-                  <option disabled selected value=""></option>
-                  <option *ngFor="let guide of guides" [value]="guide.department">{{guide.name}}</option>
-              </select>
-          </div>
+
+      <div class="my-4">
+        <label for="guide" class="dropdown-boxes">Guide {{ number }}</label>
+        <div class="dropdown-boxes">
+          <select id="guide" class="form-select">
+            <option disabled selected value=""></option>
+            <option *ngFor="let guide of filteredGuides" [value]="guide.department" []>{{ guide.name }}</option>
+          </select>
+        </div>
       </div>
       <div>Affiliation</div>
-      <input disabled id="text" size="35px" class="form-control" type="text" placeholder="Enter affiliation" />
-  </div>
+      <input disabled id="text" size="35px" class="form-control" type="text" placeholder={{affil}} />
+    </div>
+
     <div class="checkbox">
-      <input id="externalCheckbox" class="border" type="checkbox" />
-      <label>External</label>
+      <input id="externalCheckbox" class="border" type="checkbox" (change)="updateFilteredGuides()" [(ngModel)]="externalCheckboxChecked">
+      <label for="externalCheckbox">External</label>
     </div>
   </div>
+
   <div class="buttons-box">
     <button class="buttons" (click)="decrement()" *ngIf="number==2||number==3">
       <a href="C:\Users\adlur\Desktop\Internship\pages\guide1.html" class="buttons-text">Back</a>
