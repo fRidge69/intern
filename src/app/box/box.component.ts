@@ -14,6 +14,7 @@ export class BoxComponent {
   selectedGuide: string | null = null;
   previousGuide: string | null = null;
   nextGuide: string | null = null;
+
   affil: string ='Enter Affiliation';
   
   guides = [
