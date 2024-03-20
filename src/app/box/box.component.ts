@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-let selectedGuide: string|undefined;
-let affil: string|undefined;
+
 @Component({
   selector: 'box',
   templateUrl: './box.component.html',
-  styleUrl: './box.component.css'
+  styleUrls: ['./box.component.css']
 })
 export class BoxComponent {
   number: number = 1;
   selectedDepartment: string | null = null;
   previousDepartment: string | null = null;
   nextDepartment: string | null = null;
-  selectedGuide: string | null = null;
-  previousGuide: string | null = null;
-  nextGuide: string | null = null;
+  selectedGuide: any = null;
+  previousGuide: any = null;
+  nextGuide: any = null;
 
-  affil: string ='Enter Affiliation';
-  
+  affil: string = 'Enter Affiliation';
+
   guides = [
     { name: 'Prof. Jagadeesh Bayry', department: 'Biological Sciences and Engineering' },
     { name: 'Dr. Abdul Rasheed P', department: 'Biological Sciences and Engineering' },
@@ -30,47 +29,55 @@ export class BoxComponent {
     { name: 'Mrinal Kanti Das', department: 'Data Science' },
     { name: 'Anirudh Guha', department: 'Electrical Engineering' },
     { name: 'Arun Rahul S', department: 'Electrical Engineering' }
-  ]
-  selectedGuides=[];
+  ];
+
+  selectedGuides: any[] = [];
   externalCheckboxChecked: boolean = false;
-  selectedOption: string = ''; 
+  selectedOption: string = '';
+
   increment() {
     this.number++;
+    this.selectedGuides.push(this.selectedGuide);
   }
 
   decrement() {
     this.number--;
+    this.selectedGuides.pop();
   }
- 
+
   updateFilteredGuides() {
-    if(this.selectedDepartment==null){
-      return this.guides
+    if (this.selectedDepartment == null) {
+      return this.guides;
     }
-if (this.externalCheckboxChecked) {
-      return this.guides
+
+    if (this.externalCheckboxChecked) {
+      return this.guides;
     }
 
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
   }
-
 
   get filteredGuides(): any[] {
-    console.log("depart",this.selectedDepartment)
-    this.affil=== this.selectedGuide;
-    console.log(this.affil);
-    if(this.selectedDepartment==null){
-      return this.guides
-    }
+    const filteredGuides = this.updateFilteredGuides();
+    const guidesNotSelected = filteredGuides.filter(guide => !this.selectedGuides.includes(guide));
+    return guidesNotSelected;
+  }
+
+  updateAffiliation() {
+    console.log(this.externalCheckboxChecked);
     if (this.externalCheckboxChecked) {
-      this.affil=this.selectedDepartment;
-      return this.guides
+      const selectedGuide = this.selectedGuide;
+      this.affil = selectedGuide ? selectedGuide.department : '';
       
+    } 
+    else {
+      this.affil = 'Enter Affiliation';
     }
-    return this.guides.filter(guide => guide.department === this.selectedDepartment);
   }
-  updatedaffil(){
-    this.affil=this.selectedOption;
-      console.log("selected",this.affil);
+
+  onGuideSelect(guide: any) {
+    console.log("sg", this.selectedGuide);
+    console.log("sgs");
+    this.updateAffiliation();
   }
-    
-  }
+}
