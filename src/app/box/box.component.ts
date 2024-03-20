@@ -30,6 +30,7 @@ export class BoxComponent {
     { name: 'Arun Rahul S', department: 'dept-6' }
   ];
   externalCheckboxChecked: boolean = false;
+  affiliation:string = 'Enter Affiliation';
 
   increment() {
     this.previousDepartment = this.selectedDepartment;
@@ -55,7 +56,9 @@ export class BoxComponent {
     if(this.selectedDepartment==null){
       return this.guides
     }
-
+if (this.externalCheckboxChecked) {
+      return this.guides
+    }
 
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
   }
@@ -67,6 +70,7 @@ export class BoxComponent {
       return this.guides
     }
     if (this.externalCheckboxChecked) {
+      affiliation=this.guides.filter(guide => guide.name===this.selectedGuide)['department'];
       return this.guides
     }
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
