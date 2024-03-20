@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'box',
@@ -8,14 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class BoxComponent {
   number: number = 1;
   selectedDepartment: string | null = null;
-  previousDepartment: string | null = null;
-  nextDepartment: string | null = null;
+  guideSelected: any[] = [];
   selectedGuide: any = null;
-  previousGuide: any = null;
-  nextGuide: any = null;
-
   affil: string = 'Enter Affiliation';
-
   guides = [
     { name: 'Prof. Jagadeesh Bayry', department: 'Biological Sciences and Engineering' },
     { name: 'Dr. Abdul Rasheed P', department: 'Biological Sciences and Engineering' },
@@ -31,53 +26,46 @@ export class BoxComponent {
     { name: 'Arun Rahul S', department: 'Electrical Engineering' }
   ];
 
-  selectedGuides: any[] = [];
   externalCheckboxChecked: boolean = false;
-  selectedOption: string = '';
 
   increment() {
     this.number++;
-    this.selectedGuides.push(this.selectedGuide);
+    this.guideSelected.push(this.selectedGuide);
   }
 
   decrement() {
     this.number--;
-    this.selectedGuides.pop();
-  }
-
-  updateFilteredGuides() {
-    if (this.selectedDepartment == null) {
-      return this.guides;
-    }
-
-    if (this.externalCheckboxChecked) {
-      return this.guides;
-    }
-
-    return this.guides.filter(guide => guide.department === this.selectedDepartment);
-  }
-
-  get filteredGuides(): any[] {
-    const filteredGuides = this.updateFilteredGuides();
-    const guidesNotSelected = filteredGuides.filter(guide => !this.selectedGuides.includes(guide));
-    return guidesNotSelected;
+    this.selectedGuide = this.guideSelected.pop();
+    this.updateAffiliation();
   }
 
   updateAffiliation() {
-    console.log(this.externalCheckboxChecked);
     if (this.externalCheckboxChecked) {
       const selectedGuide = this.selectedGuide;
       this.affil = selectedGuide ? selectedGuide.department : '';
-      
-    } 
-    else {
+    } else {
       this.affil = 'Enter Affiliation';
     }
   }
 
   onGuideSelect(guide: any) {
-    console.log("sg", this.selectedGuide);
-    console.log("sgs");
+    this.selectedGuide = guide;
     this.updateAffiliation();
+  }
+
+  updateFilteredGuides(): any[] {
+    if (this.selectedDepartment == null) {
+      return this.guides;
+    }
+    if (this.externalCheckboxChecked) {
+      return this.guides;
+    }
+    return this.guides.filter(guide => guide.department === this.selectedDepartment);
+  }
+
+  get filteredGuides(): any[] {
+    const filteredGuides = this.updateFilteredGuides();
+    const guidesNotSelected = filteredGuides.filter(guide => !this.guideSelected.includes(guide));
+    return guidesNotSelected;
   }
 }

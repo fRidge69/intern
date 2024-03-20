@@ -1,0 +1,29 @@
+.headings {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.headings-text {
+    color: #fd7e14; 
+    font-weight: bold;
+  
+}
+
+@media (min-width: 1193px) {
+
+    .headings {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .headings-text {
+        text-align: center;
+        color: orange;
+        font-weight: bold;
+
+      }
+}

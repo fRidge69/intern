@@ -1,178 +1,269 @@
-.center-box {
-  width: 100%;
-  margin-top: 20px;
-  min-height: 100vh;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
-.dropdown {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-left: 20px;
-  flex-grow: 1;
-}
+    /* Custom CSS*/
+    @import 'bootswatch/dist/united/bootstrap.min.css';
+    .center-box {
+      width: 100%;
+      margin-top: 20px;
+      min-height: 100vh;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      
+    
+    }
 
-.box {
-  display: flex;
-  flex-direction: column;
-  width: 80vw;
-  min-height: 45vh;
-  padding: 20px;
-  border: 2px ;
-  padding-bottom: 10vh;
-}
+    .dropdown {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 20px;
+      flex-grow: 1;
+     
+    }
 
-.dropdown-boxes {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    .box {
+      display: flex;
+      flex-direction: row;
+      width: 80vw;
+      min-height: 45vh;
+      padding: 20px;
+      border: 1px  solid orange; 
+      border-radius: 0.25rem; 
+      padding: 1rem;
+      background-color: #fff; 
+    }
+    
 
-.checkbox {
-  display: flex;
-  justify-content: end;
-  gap: 5px;
-  align-items: center;
-}
+    .dropdown-boxes {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-.buttons-box {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
-  margin-top: 20px;
-}
+    .checkbox {
+      display: flex;
+      justify-content: end;
+      gap: 5px;
+      margin-top: 85px;
+    }
 
-.buttons {
-  border: 2px ;
-  border-radius: 25px;
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.buttons-text {
-  text-align: center;
-  text-align: center;
-  text-decoration-line: none;
-  color: black;
-  margin: 0;
-  padding: 0;
-}
-
-.headings {
-  width: 100%;
-  text-align: center;
-}
-
-
-
-
-
-.sidenav{
-display:flex;
-flex-direction: row;
-justify-items: center;
-gap: 10px;
-padding-right: 10px;
-font-size: 20px;
-}
-
-.topnav{
-  display:flex;
-  flex-direction: row;
-  align-items: left;
-  justify-content: space-between;
-}
-
-
-
-@media (min-width: 1193px) {
-  .center-box {
-    width: 100vw;
-    height: 100vh;
-    align-items: center;
-    display: flex;
-    gap: 60px;
-    flex-direction: row;
-    margin-left: 250px;
-    justify-content: center;
-  }
-
-  .dropdown {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .box {
-    display: flex;
-    flex-direction: row;
-    min-width: 50vw;
-    min-height: 50vh;
-    border: 2px solid;
-    padding-bottom: 25vh;
-  }
-
-  .dropdown-boxes {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-  }
-
-  .checkbox {
-    display: flex;
-    flex-direction: row;
-    align-self: flex-start;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .buttons-box {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
-  }
-
-  .buttons {
-    border: 2px solid ;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    width: 200px;
-  }
-
-  .buttons-text {
-    text-align: center;
-    text-align: center;
-    text-decoration-line: none;
-    color: black;
-  }
-
-  .headings {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: large;
-  }
-
-  .headings-text {
-    text-align: center;
-  }
-
-  .popdowns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 50px;
-    margin-right: 20px;
-  }
-
+    .buttons-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+     
+    .buttons {
+      border: none; 
+      border-radius: 20px; 
+      width: 150px; 
+      padding: 0.5rem 1rem; 
+      background-color: #fd7e14; 
+      color: #fff; 
+      text-align: center;
+      text-decoration: none; 
+      display: inline-block; 
+      transition: background-color 0.3s ease;
+    }
+    .buttons:hover {
+      background-color: #e74c3c; 
+      border-color: #e74c3c;
+    }
+  
+  
+  
+    .buttons-text {
+      text-align: center;
+      text-decoration-line: none;
+      color: black;
+   
+      margin: 0;
+      padding: 0;
+    }
+    
   
 
-}
+    .headings {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+  
+  }
+  
+  .headings-text {
+      color: #fd7e14; 
+      font-weight: bold;
+    
+  }
+  
+  .warnings{
+    color:orange;
+    margin-top: 5px;
+    justify-self: center;
+    align-self: center;
+  }
+ 
+  .imagesize{
+    width:350px;
+    height:75px;
+  }
+
+  .popdowns{
+    display:none;
+  }
+
+    .dept-1,
+    .dept-2,
+    .dept-3,
+    .dept-4,
+    .dept-5,
+    .dept-6 {
+      display: none;
+    }
+
+    div:has(#dept-1:checked)~div .dept-1 {
+      display: block;
+    }
+
+    div:has(#dept-2:checked)~div .dept-2 {
+      display: block;
+    }
+
+    div:has(#dept-3:checked)~div .dept-3 {
+      display: block;
+    }
+
+    div:has(#dept-4:checked)~div .dept-4 {
+      display: block;
+    }
+
+    div:has(#dept-5:checked)~div .dept-5 {
+      display: block;
+    }
+
+    div:has(#dept-6:checked)~div .dept-6 {
+      display: block;
+    }
+
+  
+   
+
+
+
+    @media (min-width: 1193px) {
+
+      .full {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+      }
+      .center-box {
+        width: 100vw;
+        height: 100vh;
+       
+        display: flex;
+        gap: 60px;
+        flex-direction: row;
+        margin-left: 350px;
+       
+      
+      }
+
+    
+      .dropdown {
+        display: flex;
+        flex-direction: column;
+       
+      }
+      .box {
+        display: flex;
+        flex-direction: row;
+        min-width: 50vw;
+        min-height: 50vh;
+        border: 2px solid orange;
+      
+      }
+
+
+      .dropdown-boxes {
+        display: flex;
+        flex-direction: column;
+      
+        gap: 50px;
+      }
+
+      .checkbox {
+        display: flex;
+        flex-direction: row;
+        align-self: flex-start;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .buttons-box {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+      }
+
+    
+      .buttons {
+        border: none; 
+        border-radius: 20px; 
+        width: 150px; 
+        padding: 0.5rem 1rem; 
+        background-color: #fd7e14; 
+        color: #fff; 
+        text-align: center;
+        text-decoration: none; 
+        display: inline-block; 
+        transition: background-color 0.3s ease;
+      }
+
+      .buttons-text {
+        text-align: center;
+        text-align: center;
+        text-decoration-line: none;
+        color: black;
+    
+      }
+
+      .headings {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .headings-text {
+        text-align: center;
+        color: orange;
+        font-weight: bold;
+
+      }
+
+      .warnings{
+        color:orange;
+        margin-top: 10px;
+        justify-self: center;
+        align-self: center;
+      }
+      .popdowns {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 50px;
+        margin-right: 20px;
+        
+      }
+      
+      .imagesize{
+        width:500px;
+        height:100px;
+      } 
+
+
+    }
