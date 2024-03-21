@@ -3,17 +3,24 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'box',
   templateUrl: './box.component.html',
-  styleUrls: ['./box.component.css']
+  styleUrls: ['./box.component.css'],
 })
 export class BoxComponent {
   number: number = 1;
   selectedDepartment: string | null = null;
-  guideSelected: any[] = [];
+
+  list: [number, any, any][] = [];
   selectedGuide: any = null;
   affil: string = 'Enter Affiliation';
   guides = [
-    { name: 'Prof. Jagadeesh Bayry', department: 'Biological Sciences and Engineering' },
-    { name: 'Dr. Abdul Rasheed P', department: 'Biological Sciences and Engineering' },
+    {
+      name: 'Prof. Jagadeesh Bayry',
+      department: 'Biological Sciences and Engineering',
+    },
+    {
+      name: 'Dr. Abdul Rasheed P',
+      department: 'Biological Sciences and Engineering',
+    },
     { name: 'Debarati Chatterjee', department: 'Chemistry' },
     { name: 'Dinesh Jagadeesan', department: 'Chemistry' },
     { name: 'Ankesh Kumar', department: 'Civil Engineering' },
@@ -23,32 +30,53 @@ export class BoxComponent {
     { name: 'Koninika Pal', department: 'Data Science' },
     { name: 'Mrinal Kanti Das', department: 'Data Science' },
     { name: 'Anirudh Guha', department: 'Electrical Engineering' },
-    { name: 'Arun Rahul S', department: 'Electrical Engineering' }
+    { name: 'Arun Rahul S', department: 'Electrical Engineering' },
   ];
 
   externalCheckboxChecked: boolean = false;
 
   increment() {
     this.number++;
-    console.log("push",this.selectedGuide);
-    console.log("pa",this.guideSelected);
-    this.guideSelected.push(this.selectedGuide);
+    console.log('Increment - New Page Number:', this.number);
+    console.log('Increment - Pushed Guide:', this.selectedGuide);
+    console.log(this.list);
+    this.selectedGuide = null;
+    this.selectedDepartment = null;
+
+    const index = this.number - 1;
+    if (this.list[index]) {
+      if (this.number === this.list[index][0]) {
+        this.selectedGuide = this.list[index][1];
+        this.selectedDepartment = this.list[index][2];
+      }
+    }
+
+    this.updateAffiliation();
   }
 
   decrement() {
     this.number--;
-    
-    this.selectedGuide = this.guideSelected.pop();
-    console.log("pop",this.selectedGuide);
-    console.log("po",this.guideSelected);
+    console.log('Increment - New Page Number:', this.number);
+    console.log('Increment - Pushed Guide:', this.selectedGuide);
+    console.log('pop', this.selectedGuide);
+    console.log(this.list);
+
+    const index = this.number - 1;
+    if (this.list[index]) {
+      if (this.number === this.list[index][0]) {
+        this.selectedGuide = this.list[index][1];
+        this.selectedDepartment = this.list[index][2];
+      }
+    }
     this.updateAffiliation();
+
     this.updateFilteredGuides();
   }
 
   updateAffiliation() {
     if (this.externalCheckboxChecked) {
       const selectedGuide = this.selectedGuide;
-    
+
       this.affil = selectedGuide ? selectedGuide.department : '';
     } else {
       this.affil = 'Enter Affiliation';
@@ -58,22 +86,31 @@ export class BoxComponent {
   onGuideSelect(guide: any) {
     this.selectedGuide = guide;
     this.updateAffiliation();
+    this.list.push([this.number, this.selectedGuide, this.selectedDepartment]);
   }
 
   updateFilteredGuides(): any[] {
-    
     if (this.selectedDepartment == null) {
       return this.guides;
     }
     if (this.externalCheckboxChecked) {
       return this.guides;
     }
-    return this.guides.filter(guide => guide.department === this.selectedDepartment);
+    return this.guides.filter(
+      (guide) => guide.department === this.selectedDepartment
+    );
   }
 
   get filteredGuides(): any[] {
     const filteredGuides = this.updateFilteredGuides();
-    const guidesNotSelected = filteredGuides.filter(guide => !this.guideSelected.includes(guide));
+  
+    // Filter out guides that have already been selected
+    const guidesNotSelected = filteredGuides.filter((guide) => {
+      const index = this.list.findIndex((item) => item[1].name === guide.name);
+      return index === -1 || this.list[index][0] === this.number;
+    });
+  
     return guidesNotSelected;
   }
+  
 }

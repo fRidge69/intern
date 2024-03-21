@@ -10,7 +10,7 @@ export class Task2Component {
   selectedDepartment: string | null = null;
   previousDepartment: string | null = null;
   nextDepartment: string | null = null;
-  guideSelected: any[] = [];
+  list: [number, any, any][] = [];
   selectedGuide: string | null = null;
   previousGuide: string | null = null;
   nextGuide: string | null = null;
@@ -38,39 +38,68 @@ export class Task2Component {
 
   increment() {
     this.number++;
-    this.selectedGuides.push(this.selectedGuide);
-    this.guideSelected.push(this.selectedGuide);
+    console.log('Increment - New Page Number:', this.number);
+    console.log('Increment - Pushed Guide:', this.selectedGuide);
+    console.log(this.list);
+    this.selectedGuide = null;
+    this.selectedDepartment = null;
+
+    const index = this.number - 1;
+    if (this.list[index]) {
+      if (this.number === this.list[index][0]) {
+        this.selectedGuide = this.list[index][1];
+        this.selectedDepartment = this.list[index][2];
+      }
+    }
+
+  
   }
 
   decrement() {
     this.number--;
-    this.selectedGuides.pop();
-    this.selectedGuide = this.guideSelected.pop();
+    console.log('Increment - New Page Number:', this.number);
+    console.log('Increment - Pushed Guide:', this.selectedGuide);
+    console.log('pop', this.selectedGuide);
+    console.log(this.list);
+
+    const index = this.number - 1;
+    if (this.list[index]) {
+      if (this.number === this.list[index][0]) {
+        this.selectedGuide = this.list[index][1];
+        this.selectedDepartment = this.list[index][2];
+      }
+    }
     
+
     this.updateFilteredGuides();
   }
-  onGuideSelect(guide: any) {
-    this.selectedGuide = guide;
 
-  }
-
-  updateFilteredGuides() {
+  updateFilteredGuides(): any[] {
     if (this.selectedDepartment == null) {
       return this.guides;
     }
-
     if (this.externalCheckboxChecked) {
-      this.useTextboxes = this.externalCheckboxChecked;
-      console.log(this.externalCheckboxChecked);
       return this.guides;
     }
-
-    return this.guides.filter(guide => guide.department === this.selectedDepartment);
+    return this.guides.filter(
+      (guide) => guide.department === this.selectedDepartment
+    );
+  }
+  onGuideSelect(guide: any) {
+    this.selectedGuide = guide;
+    
+    this.list.push([this.number, this.selectedGuide, this.selectedDepartment]);
   }
 
   get filteredGuides(): any[] {
     const filteredGuides = this.updateFilteredGuides();
-    const guidesNotSelected = filteredGuides.filter(guide => !this.guideSelected.includes(guide));
+  
+    // Filter out guides that have already been selected
+    const guidesNotSelected = filteredGuides.filter((guide) => {
+      const index = this.list.findIndex((item) => item[1].name === guide.name);
+      return index === -1 || this.list[index][0] === this.number;
+    });
+  
     return guidesNotSelected;
   }
   update() {
