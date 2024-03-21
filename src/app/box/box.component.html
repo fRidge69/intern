@@ -1,10 +1,10 @@
-
 <div class="center-box">
   <div class="box">
     <div class="dropdown">
       <label for="department" class="dropdown-boxes">Department</label>
       <div class="dropdown-boxes">
-        <select id="department" class="form-select" [(ngModel)]="selectedDepartment" (ngModelChange)="updateFilteredGuides()">
+        <select id="department" class="form-select" [(ngModel)]="selectedDepartment"
+          (ngModelChange)="updateFilteredGuides()">
           <option value="">Select a department</option>
           <option id="dept-1">Biological Sciences and Engineering</option>
           <option id="dept-2">Chemistry</option>
@@ -16,34 +16,35 @@
       </div>
 
       <div class="my-4">
-        <label for="guide" class="dropdown-boxes">Guide {{ number }}</label>
+        <label for="guide" class="dropdown-boxes">Guide {{ number +1 }}</label>
         <div class="dropdown-boxes">
-          <select id="guide" class="form-select" [(ngModel)]="selectedGuide" (ngModelChange)="onGuideSelect(selectedGuide)">
+          <select id="guide" class="form-select" [(ngModel)]="selectedGuide" (ngModelChange)="onGuideSelect()">
             <option value="">Select a guide</option>
-            <option *ngFor="let guide of filteredGuides" [ngValue]="guide">{{ guide.name }}</option>
+            <option *ngFor="let guide of guideListTodisplay" [ngValue]="guide">{{ guide.name }}</option>
           </select>
         </div>
       </div>
       <div>Affiliation</div>
-      <input disabled id="text" size="35px" class="form-control" type="text" [value]="affil" />
+      <input disabled id="text" size="35px" class="form-control" type="text" [(ngModel)]="affil" />
     </div>
 
     <div class="checkbox">
-      <input id="externalCheckbox" class="border" type="checkbox" (change)="updateFilteredGuides(); updateAffiliation()" [(ngModel)]="externalCheckboxChecked" placeholder="{{affil}}">
+      <input id="externalCheckbox" class="border" type="checkbox" (change)="updateFilteredGuides()"
+        [(ngModel)]="externalCheckboxChecked" placeholder="{{affil}}">
       <label for="externalCheckbox">External</label>
     </div>
   </div>
 
   <div class="buttons-box">
-    <button class="buttons" (click)="decrement()" *ngIf="number==2||number==3">
+    <button class="buttons" (click)="decrement()" *ngIf="list.length">
       <a class="buttons-text">Back</a>
     </button>
 
-    <button class="buttons" (click)="increment()" *ngIf="number==1||number==2">
+    <button class="buttons" (click)="increment()" *ngIf="list.length <2">
       <a class="buttons-text">Next</a>
     </button>
-    <button class="buttons" *ngIf="number==3">
-      <a class="buttons-text">Submit</a>
+    <button class="buttons" *ngIf="list.length >=2">
+      <a class="buttons-text" (click)="submit()" >Submit</a>
     </button>
   </div>
 </div>

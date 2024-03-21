@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./box.component.css'],
 })
 export class BoxComponent {
-  number: number = 1;
+  number: number = 0;
   selectedDepartment: string | null = null;
 
-  list: [number, any, any][] = [];
+  list: any[] = [];
   selectedGuide: any = null;
   affil: string = 'Enter Affiliation';
   guides = [
@@ -27,82 +27,104 @@ export class BoxComponent {
     { name: 'Arun Rahul S', department: 'Electrical Engineering' },
   ];
 
+  guideListTodisplay: any[] = [];
+
   externalCheckboxChecked: boolean = false;
 
   increment() {
-    if (this.number < 3) {
-      this.number++;
+    this.number++;
+    if (this.number >= 3) {
+      return;
     }
-    console.log('Increment - New Page Number:', this.number);
-    console.log('Increment - Pushed Guide:', this.selectedGuide);
-    console.log('List', this.list);
-
-    const index = this.number;
-    if (this.list[index]) {
-      if (this.number === this.list[index][0]) {
-        this.list[index][1] = this.selectedGuide;
-        this.list[index][2] = this.selectedDepartment;
-      }
+    const currentDep = {
+      department: this.selectedDepartment,
+      guide: this.selectedGuide,
+      isExternal: this.externalCheckboxChecked,
     }
+    
+    this.list.push(currentDep);
+    this.clearCurrentField();
+  }
 
-    this.updateAffiliation();
+  submit() {
+    const currentDep = {
+      department: this.selectedDepartment,
+      guide: this.selectedGuide,
+      isExternal: this.externalCheckboxChecked,
+    }
+    this.list.push(currentDep);
   }
 
   decrement() {
-    if(this.number>1)
     this.number--;
-    console.log('Increment - New Page Number:', this.number);
-    console.log('Increment - Pushed Guide:', this.selectedGuide);
-    console.log('List', this.list);
-
-    const index = this.number;
-    if (this.list[index]) {
-      if (this.number === this.list[index][0]) {
-        this.selectedGuide = this.list[index][1];
-        this.selectedDepartment = this.list[index][2];
-      }
+    if (this.number < 0) {
+      return;
     }
-    this.updateAffiliation();
-    this.updateFilteredGuides();
+    const backObj = this.list[this.number];
+    if (backObj) {
+      this.selectedDepartment = backObj.department;
+      this.selectedGuide = backObj.guide;
+      this.externalCheckboxChecked = backObj.isExternal;
+      this.updateAffiliation();
+    }
+
   }
+
+  clearCurrentField() {
+    this.selectedDepartment = '';
+    this.selectedGuide = null;
+    this.externalCheckboxChecked = false;
+    this.affil = 'Enter Affiliation';
+  }
+
+  // decrement() {
+  //   if (this.number > 1)
+  //     this.number--;
+  //   const index = this.number;
+  //   if (this.list[index]) {
+  //     if (this.number === this.list[index][0]) {
+  //       this.selectedGuide = this.list[index][1];
+  //       this.selectedDepartment = this.list[index][2];
+  //     }
+  //   }
+  //   this.updateAffiliation();
+  //   //this.updateFilteredGuides();
+  // }
 
   updateAffiliation() {
     if (this.externalCheckboxChecked) {
       const selectedGuide = this.selectedGuide;
-
       this.affil = selectedGuide ? selectedGuide.department : '';
     } else {
       this.affil = 'Enter Affiliation';
     }
   }
 
-  onGuideSelect(guide: any) {
-    this.selectedGuide = guide;
-    this.updateAffiliation();
-    const index = this.number - 1;
-    this.list[index] = ([this.number, this.selectedGuide, this.selectedDepartment]);
-  }
-
-  updateFilteredGuides(): any[] {
-    if (this.selectedDepartment == null) {
-      return this.guides;
+  onGuideSelect() {
+    if (this.externalCheckboxChecked && this.selectedGuide?.department) {
+      this.affil = this.selectedGuide.department
+    } else {
+      this.affil = 'Enter Affiliation';
     }
-    if (this.externalCheckboxChecked) {
-      return this.guides;
+  }
+
+  updateFilteredGuides() {
+    if (this.selectedDepartment) {
+      this.guideListTodisplay = this.guides.filter(item => {
+        return this.externalCheckboxChecked ? true : item.department === this.selectedDepartment;
+      })
     }
-    return this.guides.filter(
-      (guide) => guide.department === this.selectedDepartment
-    );
+    this.onGuideSelect()
   }
 
-  get filteredGuides(): any[] {
-    const filteredGuides = this.updateFilteredGuides();
-    const guidesNotSelected = filteredGuides.filter((guide) => {
-      const index = this.list.findIndex((item) => item[1].name === guide.name);
-      return index === -1 || this.list[index][0] === this.number;
-    });
+  // filteredGuides(): any[] {
+  //   const filteredGuides = this.updateFilteredGuides();
+  //   // const guidesNotSelected = filteredGuides.filter((guide) => {
+  //   //   const index = this.list.findIndex((item) => item[1].name === guide.name);
+  //   //   return index === -1 || this.list[index][0] === this.number;
+  //   // });
 
-    return guidesNotSelected;
-  }
+  //   return [];
+  // }
 
 }
