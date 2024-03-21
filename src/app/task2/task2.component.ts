@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-task2',
+  selector: 'task2',
   templateUrl: './task2.component.html',
-  styleUrl: './task2.component.css'
+  styleUrls: ['./task2.component.css']
 })
 export class Task2Component {
   number: number = 1;
   selectedDepartment: string | null = null;
   previousDepartment: string | null = null;
   nextDepartment: string | null = null;
+  guideSelected: any[] = [];
   selectedGuide: string | null = null;
   previousGuide: string | null = null;
   nextGuide: string | null = null;
   affil: string = 'Enter Affiliation';
-  isVisible = false;
 
   guides = [
     { name: 'Prof. Jagadeesh Bayry', department: 'Biological Sciences and Engineering' },
@@ -31,13 +31,6 @@ export class Task2Component {
     { name: 'Arun Rahul S', department: 'Electrical Engineering' }
   ];
 
-  ngOnInit() {
-    console.log("External Checkbox: ",this.externalCheckboxChecked)
-  }
-
-  constructor(){
-    console.log("External Checkbox: ",this.externalCheckboxChecked)
-  }
   selectedGuides: any[] = [];
   externalCheckboxChecked: boolean = false;
   selectedOption: string = '';
@@ -46,11 +39,19 @@ export class Task2Component {
   increment() {
     this.number++;
     this.selectedGuides.push(this.selectedGuide);
+    this.guideSelected.push(this.selectedGuide);
   }
 
   decrement() {
     this.number--;
     this.selectedGuides.pop();
+    this.selectedGuide = this.guideSelected.pop();
+    
+    this.updateFilteredGuides();
+  }
+  onGuideSelect(guide: any) {
+    this.selectedGuide = guide;
+
   }
 
   updateFilteredGuides() {
@@ -58,24 +59,25 @@ export class Task2Component {
       return this.guides;
     }
 
-  
-  
-
+    if (this.externalCheckboxChecked) {
+      this.useTextboxes = this.externalCheckboxChecked;
+      console.log(this.externalCheckboxChecked);
+      return this.guides;
+    }
 
     return this.guides.filter(guide => guide.department === this.selectedDepartment);
   }
 
   get filteredGuides(): any[] {
     const filteredGuides = this.updateFilteredGuides();
-    const guidesNotSelected = filteredGuides.filter(guide => !this.selectedGuides.includes(guide));
+    const guidesNotSelected = filteredGuides.filter(guide => !this.guideSelected.includes(guide));
     return guidesNotSelected;
   }
-  textbox() {
-    console.log("hi",this.externalCheckboxChecked);
+  update() {
     if (this.externalCheckboxChecked)
+      this.useTextboxes = false;
+    else
       this.useTextboxes = true;
-      this.isVisible = true;
- 
   }
 
 }

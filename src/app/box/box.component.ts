@@ -30,18 +30,25 @@ export class BoxComponent {
 
   increment() {
     this.number++;
+    console.log("push",this.selectedGuide);
+    console.log("pa",this.guideSelected);
     this.guideSelected.push(this.selectedGuide);
   }
 
   decrement() {
     this.number--;
+    
     this.selectedGuide = this.guideSelected.pop();
+    console.log("pop",this.selectedGuide);
+    console.log("po",this.guideSelected);
     this.updateAffiliation();
+    this.updateFilteredGuides();
   }
 
   updateAffiliation() {
     if (this.externalCheckboxChecked) {
       const selectedGuide = this.selectedGuide;
+    
       this.affil = selectedGuide ? selectedGuide.department : '';
     } else {
       this.affil = 'Enter Affiliation';
@@ -54,6 +61,7 @@ export class BoxComponent {
   }
 
   updateFilteredGuides(): any[] {
+    
     if (this.selectedDepartment == null) {
       return this.guides;
     }
