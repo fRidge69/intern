@@ -13,14 +13,8 @@ export class BoxComponent {
   selectedGuide: any = null;
   affil: string = 'Enter Affiliation';
   guides = [
-    {
-      name: 'Prof. Jagadeesh Bayry',
-      department: 'Biological Sciences and Engineering',
-    },
-    {
-      name: 'Dr. Abdul Rasheed P',
-      department: 'Biological Sciences and Engineering',
-    },
+    { name: 'Prof. Jagadeesh Bayry', department: 'Biological Sciences and Engineering' },
+    { name: 'Dr. Abdul Rasheed P', department: 'Biological Sciences and Engineering' },
     { name: 'Debarati Chatterjee', department: 'Chemistry' },
     { name: 'Dinesh Jagadeesan', department: 'Chemistry' },
     { name: 'Ankesh Kumar', department: 'Civil Engineering' },
@@ -36,18 +30,18 @@ export class BoxComponent {
   externalCheckboxChecked: boolean = false;
 
   increment() {
-    this.number++;
+    if (this.number < 3) {
+      this.number++;
+    }
     console.log('Increment - New Page Number:', this.number);
     console.log('Increment - Pushed Guide:', this.selectedGuide);
-    console.log(this.list);
-    this.selectedGuide = null;
-    this.selectedDepartment = null;
+    console.log('List', this.list);
 
-    const index = this.number - 1;
+    const index = this.number;
     if (this.list[index]) {
       if (this.number === this.list[index][0]) {
-        this.selectedGuide = this.list[index][1];
-        this.selectedDepartment = this.list[index][2];
+        this.list[index][1] = this.selectedGuide;
+        this.list[index][2] = this.selectedDepartment;
       }
     }
 
@@ -55,13 +49,13 @@ export class BoxComponent {
   }
 
   decrement() {
+    if(this.number>1)
     this.number--;
     console.log('Increment - New Page Number:', this.number);
     console.log('Increment - Pushed Guide:', this.selectedGuide);
-    console.log('pop', this.selectedGuide);
-    console.log(this.list);
+    console.log('List', this.list);
 
-    const index = this.number - 1;
+    const index = this.number;
     if (this.list[index]) {
       if (this.number === this.list[index][0]) {
         this.selectedGuide = this.list[index][1];
@@ -69,7 +63,6 @@ export class BoxComponent {
       }
     }
     this.updateAffiliation();
-
     this.updateFilteredGuides();
   }
 
@@ -86,7 +79,8 @@ export class BoxComponent {
   onGuideSelect(guide: any) {
     this.selectedGuide = guide;
     this.updateAffiliation();
-    this.list.push([this.number, this.selectedGuide, this.selectedDepartment]);
+    const index = this.number - 1;
+    this.list[index] = ([this.number, this.selectedGuide, this.selectedDepartment]);
   }
 
   updateFilteredGuides(): any[] {
@@ -103,14 +97,12 @@ export class BoxComponent {
 
   get filteredGuides(): any[] {
     const filteredGuides = this.updateFilteredGuides();
-  
-    // Filter out guides that have already been selected
     const guidesNotSelected = filteredGuides.filter((guide) => {
       const index = this.list.findIndex((item) => item[1].name === guide.name);
       return index === -1 || this.list[index][0] === this.number;
     });
-  
+
     return guidesNotSelected;
   }
-  
+
 }
