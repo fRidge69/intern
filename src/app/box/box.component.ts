@@ -30,45 +30,87 @@ export class BoxComponent {
   guideListTodisplay: any[] = [];
 
   externalCheckboxChecked: boolean = false;
+  showSubmit = false;
+
+
+  currentIndex = 0;
 
   increment() {
-    this.number++;
-    if (this.number >= 3) {
+
+    const nextNumber = this.number + 1;
+    if (nextNumber >= 4) {
+      this.checkForSubmit();
       return;
     }
-    const currentDep = {
-      department: this.selectedDepartment,
-      guide: this.selectedGuide,
-      isExternal: this.externalCheckboxChecked,
-    }
-    
-    this.list.push(currentDep);
-    this.clearCurrentField();
-  }
-
-  submit() {
-    const currentDep = {
-      department: this.selectedDepartment,
-      guide: this.selectedGuide,
-      isExternal: this.externalCheckboxChecked,
-    }
-    this.list.push(currentDep);
-  }
-
-  decrement() {
-    this.number--;
-    if (this.number < 0) {
-      return;
-    }
+    // this.number++;
     const backObj = this.list[this.number];
     if (backObj) {
       this.selectedDepartment = backObj.department;
-      this.selectedGuide = backObj.guide;
+      this.updateFilteredGuides();
+      this.selectedGuide = this.guideListTodisplay.find(item => {
+        return item.name === backObj.guide.name && item.department === backObj.guide.department;
+      });
+      this.externalCheckboxChecked = backObj.isExternal;
+      this.updateAffiliation();
+    } else {
+      const currentDep = {
+        department: this.selectedDepartment,
+        guide: this.selectedGuide,
+        isExternal: this.externalCheckboxChecked,
+      }
+
+      this.list.push(currentDep);
+      if (nextNumber != 3) {
+        this.showSubmit = true;
+        this.clearCurrentField();
+      }
+      this.checkForSubmit();
+    }
+
+    if (nextNumber === 3) {
+      return;
+    }
+
+    this.number++;
+  }
+
+  submit() {
+    // const currentDep = {
+    //   department: this.selectedDepartment,
+    //   guide: this.selectedGuide,
+    //   isExternal: this.externalCheckboxChecked,
+    // }
+    // this.list.push(currentDep);
+  }
+
+  checkForSubmit() {
+    this.showSubmit = this.number >= 2 && this.list.length === 3;
+  }
+
+  decrement() {
+    const previousNumber = this.number - 1;
+    this.checkForSubmit();
+    if (previousNumber < 0) {
+      // this.checkForSubmit();
+      return;
+    }
+    const backObj = this.list[previousNumber];
+    if (backObj) {
+      this.selectedDepartment = backObj.department;
+      this.updateFilteredGuides();
+      this.selectedGuide = this.guideListTodisplay.find(item => {
+        return item.name === backObj.guide.name && item.department === backObj.guide.department;
+      });
       this.externalCheckboxChecked = backObj.isExternal;
       this.updateAffiliation();
     }
-
+    if (previousNumber < 0) {
+      return;
+    }
+    this.number--;
   }
+
+
 
   clearCurrentField() {
     this.selectedDepartment = '';
@@ -109,9 +151,16 @@ export class BoxComponent {
   }
 
   updateFilteredGuides() {
+    let excludedItems:any[] = [];
+    for(let i=0; i<this.list.length; i++ ){
+      if(i !== this.number){
+        excludedItems.push(this.list[i].guide.name);
+      }
+    }
+    const departMentListexclude = []
     if (this.selectedDepartment) {
       this.guideListTodisplay = this.guides.filter(item => {
-        return this.externalCheckboxChecked ? true : item.department === this.selectedDepartment;
+        return this.externalCheckboxChecked ? excludedItems.indexOf( item.name) == -1 : item.department === this.selectedDepartment && excludedItems.indexOf( item.name) == -1;
       })
     }
     this.onGuideSelect()
@@ -125,6 +174,33 @@ export class BoxComponent {
   //   // });
 
   //   return [];
+  // }
+
+
+  // next() {
+  //   this.showSubmit =  false;
+  //   if ((this.currentIndex + 1) < 3) {
+  //     const backObj = this.list[this.currentIndex];
+  //     if (backObj) {
+  //       this.selectedDepartment = backObj.department;
+  //       this.updateFilteredGuides();
+  //       this.selectedGuide = this.guideListTodisplay.find(item => {
+  //         return item.name === backObj.guide.name && item.department === backObj.guide.department;
+  //       });
+  //       this.externalCheckboxChecked = backObj.isExternal;
+  //       this.updateAffiliation();
+  //     } else {
+  //       const currentDep = {
+  //         department: this.selectedDepartment,
+  //         guide: this.selectedGuide,
+  //         isExternal: this.externalCheckboxChecked,
+  //       }
+  //       this.list.push(currentDep);
+  //     }
+  //     this.currentIndex++;
+  //   }else{
+  //     this.showSubmit =  true;
+  //   }
   // }
 
 }
